@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         location.getSpeed();
-                        System.out.println("Location: " + latitude + ", " + longitude);
                     }
                 }
                 else {
@@ -130,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             TextView roadType = findViewById(R.id.road_type);
             response = request.get();
+
+            if (new JSONObject(response).getJSONArray("elements").length() == 0) {
+                return 0;
+            }
             JSONObject tags = new JSONObject(response).getJSONArray("elements").getJSONObject(0).getJSONObject("tags");
 
             if (tags.has("name") && tags.has("ref")) {
@@ -141,16 +144,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (tags.getString("highway").equals("motorway") && Integer.parseInt(tags.getString("maxspeed")) == 130) {
-                System.out.println("Motorway with maxspeed 130");
                 return 110;
             } else if(tags.getString("highway").equals("trunk") && Integer.parseInt(tags.getString("lanes")) >= 2 && tags.getString("oneway").equals("yes") && Integer.parseInt(tags.getString("maxspeed")) == 110) {
-                System.out.println("Trunk with 2 lanes and oneway with maxspeed 110");
                 return 100;
             } else if (tags.getString("highway").equals("residential") && !tags.has("maxspeed")) {
-                System.out.println("Residential without maxspeed");
                 return 50;
             } else {
-                System.out.println("Default speed limit");
                 return Integer.parseInt(tags.getString("maxspeed"));
             }
 

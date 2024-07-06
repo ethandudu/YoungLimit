@@ -59,7 +59,6 @@ public class HttpRequest implements Callable<String> {
             e.printStackTrace();
             response = "Error: " + e.getMessage();
         }
-        System.out.println(response);
         return response;
     }
 
