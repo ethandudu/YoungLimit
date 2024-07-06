@@ -1,0 +1,7 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Cercle extérieur rouge -->
+    <circle cx="100" cy="100" r="90" fill="white" stroke="red" stroke-width="10"/>
+
+    <!-- Texte de la limitation de vitesse -->
+    <text id="speed" x="100" y="125" font-family="@font/speedsignfont" font-size="70" fill="black" text-anchor="middle">0</text>
+</svg>
