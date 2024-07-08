@@ -56,7 +56,6 @@ public class HttpRequest implements Callable<String> {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
             response = "Error: " + e.getMessage();
         }
         return response;

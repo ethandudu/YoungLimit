@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Erreur: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return 0;
     }
