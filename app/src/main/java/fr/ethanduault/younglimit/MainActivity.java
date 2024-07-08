@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             response = request.get();
 
             if (new JSONObject(response).getJSONArray("elements").length() == 0) {
+                roadType.setText("Route inconnue");
                 return 0;
             }
             JSONObject tags = new JSONObject(response).getJSONArray("elements").getJSONObject(0).getJSONObject("tags");
