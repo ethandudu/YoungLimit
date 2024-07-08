@@ -21,7 +21,7 @@ public class HttpRequest implements Callable<String> {
     public HttpRequest(String url, double latitude, double longitude) {
         this.url = url;
         this.body = "data=[out:json];\n" +
-                "   way[highway](around:25, "+latitude+","+longitude+");\n" +
+                "   way[highway](around:10, "+latitude+","+longitude+");\n" +
                 "out body;";
     }
 
