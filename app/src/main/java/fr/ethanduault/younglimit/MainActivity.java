@@ -1,11 +1,13 @@
 package fr.ethanduault.younglimit;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
 import android.Manifest;
 import android.location.Location;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     if (location != null) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        location.getSpeed();
+                        speed = location.getSpeed();
                     }
                 }
                 else {
@@ -158,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Erreur: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return 0;
+    }
+
+    public void openSettings(View v) {
+        startActivity(new Intent(this, Settings.class));
+        super.finish();
     }
 
 }
