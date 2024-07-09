@@ -1,6 +1,7 @@
 package fr.ethanduault.younglimit;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import com.caverock.androidsvg.SVG;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private double longitude = 0.0;
     private double speed = 0.0;
 
+    private int refreshDelay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
+        loadSettings();
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -61,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 finish();
-
             }
         };
     }
@@ -74,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 getDeviceLocation();
                 setSpeedLimit(getSpeedLimit());
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, refreshDelay);
             }
-        }, 5000);
+        }, refreshDelay);
     }
 
     private void setSpeedLimit(int speedLimit) {
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             response = request.get();
 
             if (new JSONObject(response).getJSONArray("elements").length() == 0) {
-                roadType.setText("Route inconnue");
+                roadType.setText(R.string.unknown_road);
                 return 0;
             }
             JSONObject tags = new JSONObject(response).getJSONArray("elements").getJSONObject(0).getJSONObject("tags");
@@ -169,6 +174,26 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Erreur: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return 0;
+    }
+
+    private void loadSettings() {
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+
+        if (preferences.getBoolean("isFirstLaunch", true)) {
+            Intent intent = new Intent(this, FirstStart.class);
+            startActivity(intent);
+            super.finish();
+        }
+        refreshDelay = preferences.getInt("refresh", 5) * 1000;
+        setTheme(preferences.getBoolean("darkmode", false));
+    }
+    
+    private void setTheme(Boolean darkmode) {
+        if (darkmode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else if (!darkmode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     public void openSettings(View v) {
