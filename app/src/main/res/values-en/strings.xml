@@ -12,4 +12,8 @@
     <string name="refresh_rate">Refresh rate</string>
     <string name="finish">Finish</string>
     <string name="finish_text">You have completed setting up Young Limit. you can now use the app! If you want to change your choices later, go to the application settings. Good road !</string>
+    <string name="location_permission_title">Location permission</string>
+    <string name="location_permission_message">Young Limit needs access to your location to display the correct speed limit. If you do not want to share it, the application cannot work.</string>
+    <string name="ok">OK</string>
+    <string name="permission_needed">Location authorization is required</string>
 </resources>

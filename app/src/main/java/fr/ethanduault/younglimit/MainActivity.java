@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
@@ -53,18 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if (!loadSettings()) {
+            super.finish();
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.location_permission_title);
+                builder.setMessage(R.string.location_permission_message);
+                builder.setPositiveButton(R.string.ok, (dialog, which) -> grantLocationPermission()
+                );
+                builder.show();
+            }
+
+            if (isLocationPermissionGranted()) {
+                run();
+            }
         }
-
-        loadSettings();
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        getDeviceLocation();
-        setSpeedLimit(getSpeedLimit());
-
-        startLocationLoop();
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -74,7 +80,35 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    // loop to get the location every 5 seconds
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1000) { // Match the request code used in the permission request
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                run();
+            } else {
+                // Permission was denied or request was cancelled
+                Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
+                super.finish();
+            }
+        }
+    }
+
+    private void run() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        getDeviceLocation();
+        setSpeedLimit(getSpeedLimit());
+        startLocationLoop();
+    }
+    private void grantLocationPermission() {
+        // ask for location permission and set callback
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1000);
+    }
+
+    private boolean isLocationPermissionGranted() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
     private void startLocationLoop() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -179,16 +213,17 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    private void loadSettings() {
+    private boolean loadSettings() {
         SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
 
         if (preferences.getBoolean("isFirstLaunch", true)) {
             Intent intent = new Intent(this, FirstStart.class);
             startActivity(intent);
-            super.finish();
+            return false;
         }
         refreshDelay = preferences.getInt("refresh", 5) * 1000;
         setTheme(preferences.getBoolean("darkmode", false));
+        return true;
     }
     
     private void setTheme(Boolean darkmode) {
