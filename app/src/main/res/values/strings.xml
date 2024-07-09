@@ -2,5 +2,9 @@
     <string name="app_name" translatable="false">Young Limit</string>
     <string name="speed_sign">Panneau de limitation de vitesse</string>
     <string name="app_logo">Logo de Young Limit</string>
-    <string name="road_unknown">Route inconnue</string>
+    <string name="unknown_road">Route inconnue</string>
+    <string name="about">A propos</string>
+    <string name="settings">Paramètres</string>
+    <string name="next">Suivant</string>
+    <string name="startup_text" >Bienvenue sur Young Limit !\\nIl semblerait que c\'est votre première fois sur l\'application, laissez vous guider par les étapes suivantes.\\nVous êtes à deux doigts de pouvoir utiliser l\'application</string>
 </resources>

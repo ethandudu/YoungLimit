@@ -2,5 +2,9 @@
 <resources>
     <string name="speed_sign">Speed sign</string>
     <string name="app_logo">Icon of Young Limit</string>
-    <string name="road_unknown">Unknown road</string>
+    <string name="startup_text">Welcome on Young Limit !\\nIt seems it\'s your first time using the app, let yourself be guided by the following steps.\\nYou are one step away from being able to use the application</string>
+    <string name="unknown_road">Unknown road</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="next">Next</string>
 </resources>
