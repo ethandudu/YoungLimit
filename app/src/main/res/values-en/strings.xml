@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="speed_sign">Speed sign</string>
+    <string name="app_logo">Icon of Young Limit</string>
+    <string name="road_unknown">Unknown road</string>
+</resources>
