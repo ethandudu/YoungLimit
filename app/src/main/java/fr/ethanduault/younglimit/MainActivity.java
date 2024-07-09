@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -55,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         setSpeedLimit(getSpeedLimit());
 
         startLocationLoop();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+
+            }
+        };
     }
 
     // loop to get the location every 5 seconds
