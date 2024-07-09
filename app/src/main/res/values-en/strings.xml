@@ -7,4 +7,7 @@
     <string name="about">About</string>
     <string name="settings">Settings</string>
     <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="darkmode">Dark mode</string>
+    <string name="refresh_rate">Refresh rate</string>
 </resources>

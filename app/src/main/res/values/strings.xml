@@ -6,5 +6,8 @@
     <string name="about">A propos</string>
     <string name="settings">Paramètres</string>
     <string name="next">Suivant</string>
-    <string name="startup_text" >Bienvenue sur Young Limit !\\nIl semblerait que c\'est votre première fois sur l\'application, laissez vous guider par les étapes suivantes.\\nVous êtes à deux doigts de pouvoir utiliser l\'application</string>
+    <string name="startup_text" >Bienvenue sur Young Limit !\nIl semblerait que c\'est votre première fois sur l\'application, laissez vous guider par les étapes suivantes.\nVous êtes à deux doigts de pouvoir utiliser l\'application</string>
+    <string name="previous">Précédent</string>
+    <string name="darkmode">Thème sombre</string>
+    <string name="refresh_rate">Actualisation (s)</string>
 </resources>
