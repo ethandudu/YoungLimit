@@ -10,4 +10,6 @@
     <string name="previous">Précédent</string>
     <string name="darkmode">Thème sombre</string>
     <string name="refresh_rate">Actualisation (s)</string>
+    <string name="finish">Terminer</string>
+    <string name="finish_text">Vous avez terminé la configuration de Young Limit. vous pouvez désormais utiliser l\'application ! Si vous souhaitez modifier ultérieurement vos choix, rendez vous dans les paramètres de l\'application. Bonne route !</string>
 </resources>

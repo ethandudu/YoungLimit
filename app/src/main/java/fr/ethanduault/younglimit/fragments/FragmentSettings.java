@@ -1,7 +1,6 @@
 package fr.ethanduault.younglimit.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -53,16 +52,16 @@ public class FragmentSettings extends Fragment {
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("darkmode", darkmode.isChecked());
-            editor.putBoolean("firstStart", false);
+            editor.putBoolean("isFirstLaunch", false);
             editor.putInt("refreshDelay", (int) slider.getValue());
             editor.apply();
 
-//            FragmentWelcome fragmentFinish = new FragmentFinish();
-//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//            transaction.replace(R.id.fragment_container, fragmentFinish);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
+            FragmentFinish fragmentFinish = new FragmentFinish();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container, fragmentFinish);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
 
         // listen for the click on the back button
