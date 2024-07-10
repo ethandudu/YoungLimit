@@ -1,23 +1,35 @@
 package fr.ethanduault.younglimit.fragments;
 
+import static android.os.Build.VERSION.SDK_INT;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import fr.ethanduault.younglimit.FirstStart;
 import fr.ethanduault.younglimit.R;
 
 public class FragmentSettings extends Fragment {
@@ -28,6 +40,7 @@ public class FragmentSettings extends Fragment {
 
         Button buttonNext = view.findViewById(R.id.next);
         Button buttonBack = view.findViewById(R.id.previous);
+        SwitchMaterial switchPermission= view.findViewById(R.id.permissions);
 
         SwitchMaterial darkmode = view.findViewById(R.id.darkmode);
 
@@ -44,6 +57,13 @@ public class FragmentSettings extends Fragment {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
+
+        // listen the changes on the permissions switch
+        switchPermission.setOnCheckedChangeListener((buttonView, isChecked)-> {
+            if (isChecked) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1001);
             }
         });
 
@@ -75,5 +95,18 @@ public class FragmentSettings extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        SwitchMaterial switchPermission = requireView().findViewById(R.id.permissions);
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                switchPermission.setEnabled(false);
+            } else {
+                Toast.makeText(requireActivity(), R.string.permission_needed, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

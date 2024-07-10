@@ -49,11 +49,9 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/darkmode"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="75dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
-        android:layout_marginEnd="75dp"
         android:text="@string/darkmode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -85,6 +83,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sliderLabel" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/permissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/permissions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/previous"

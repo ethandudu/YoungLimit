@@ -16,4 +16,6 @@
     <string name="location_permission_message">Young Limit a besoin d\'avoir accès à ta position pour t\'afficher la bonne limitation de vitesse. Si tu ne souhaites pas la partager, l\'application ne peut pas fonctionner.</string>
     <string name="ok">OK</string>
     <string name="permission_needed">L\'autorisation de localisation est obligatoire</string>
+    <string name="permissions">Permissions</string>
+    <string name="permission_already_granted">Permission déjà accordée</string>
 </resources>
