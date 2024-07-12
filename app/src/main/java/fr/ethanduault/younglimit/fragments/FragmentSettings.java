@@ -69,6 +69,10 @@ public class FragmentSettings extends Fragment {
 
         // listen for the click on the next button
         buttonNext.setOnClickListener(v -> {
+            if (!switchPermission.isChecked()){
+                Toast.makeText(requireActivity(), R.string.permission_needed, Toast.LENGTH_SHORT).show();
+                return;
+            }
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("darkmode", darkmode.isChecked());
