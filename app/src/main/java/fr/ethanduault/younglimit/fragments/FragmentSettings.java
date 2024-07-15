@@ -110,6 +110,7 @@ public class FragmentSettings extends Fragment {
                 switchPermission.setEnabled(false);
             } else {
                 Toast.makeText(requireActivity(), R.string.permission_needed, Toast.LENGTH_SHORT).show();
+                switchPermission.setChecked(false);
             }
         }
     }
