@@ -10,8 +10,8 @@ android {
         applicationId = "fr.ethanduault.younglimit"
         minSdk = 31
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.3-Alpha"
+        versionCode = 6
+        versionName = "1.0-Beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

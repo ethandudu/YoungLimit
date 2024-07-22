@@ -1,7 +1,9 @@
 package fr.ethanduault.younglimit;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -37,7 +39,16 @@ public class Settings extends AppCompatActivity {
     public void onAboutClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.about);
-        builder.setMessage("Version 1.0\n\nApplication développée par Ethan Duault et la communauté\n\nBasée sur OpenStreetMap et l'API Overpass\n\nInformations données à titre indicatif uniquement");
+        Context context = getApplicationContext();
+        PackageManager pm = context.getPackageManager();
+        String pn = context.getPackageName();
+        String appVersion = null;
+        try {
+            appVersion = pm.getPackageInfo(pn, 0).versionName + " (" + pm.getPackageInfo(pn, 0).getLongVersionCode() + ")";
+        } catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+        }
+        builder.setMessage(appVersion + "\n\nApplication développée par Ethan Duault et la communauté\n\nBasée sur OpenStreetMap et l'API Overpass\n\nInformations données à titre indicatif uniquement");
         builder.setPositiveButton("OK", null);
         builder.show();
     }
