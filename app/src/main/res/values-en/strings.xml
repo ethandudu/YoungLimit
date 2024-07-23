@@ -19,4 +19,6 @@
     <string name="permissions">Permissions</string>
     <string name="permission_already_granted">Permission already granted</string>
     <string name="unknown_speed">0 km/h</string>
+    <string name="speedwarning">Speed ​​limit exceeded alert</string>
+    <string name="about_text">Application developed by Ethan Duault and the community \nBased on OpenStreetMap and the Overpass API \nSound Effect by UNIVERSFIELD from Pixabay\nInformation given for informational purposes only</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="permissions">Permissions</string>
     <string name="permission_already_granted">Permission déjà accordée</string>
     <string name="unknown_speed">0 km/h</string>
+    <string name="speedwarning">Alerte de dépassement de la limiation de vitesse</string>
+    <string name="about_text">"  Application développée par Ethan Duault et la communauté \nBasée sur OpenStreetMap et l'API Overpass \nSound Effect by UNIVERSFIELD from Pixabay \nInformations données à titre indicatif uniquement"</string>
 </resources>

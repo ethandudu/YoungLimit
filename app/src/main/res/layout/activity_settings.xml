@@ -42,15 +42,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/sliderLabel"
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/speedwarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:labelFor="@id/slider"
-        android:text="@string/refresh_rate"
+        android:layout_marginTop="32dp"
+        android:text="@string/speedwarning"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/darkmode" />
 
@@ -58,15 +57,27 @@
         android:id="@+id/slider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:stepSize="1"
         android:value="5"
         android:valueFrom="1"
         android:valueTo="20"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sliderLabel" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sliderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:labelFor="@id/slider"
+        android:text="@string/refresh_rate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedwarning" />
 
     <Button
         android:id="@+id/about"

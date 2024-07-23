@@ -48,7 +48,7 @@ public class Settings extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
         }
-        builder.setMessage(appVersion + "\n\nApplication développée par Ethan Duault et la communauté\n\nBasée sur OpenStreetMap et l'API Overpass\n\nInformations données à titre indicatif uniquement");
+        builder.setMessage(appVersion + getString(R.string.about_text));
         builder.setPositiveButton("OK", null);
         builder.show();
     }
@@ -59,6 +59,11 @@ public class Settings extends AppCompatActivity {
         if (preferences.getBoolean("darkmode", false)){
             SwitchMaterial darkmode = findViewById(R.id.darkmode);
             darkmode.setChecked(true);
+        }
+
+        if (preferences.getBoolean("speedAlert", false)) {
+            SwitchMaterial speedAlert = findViewById(R.id.speedwarning);
+            speedAlert.setChecked(true);
         }
 
         if (preferences.getInt("refresh", 0) != 0){

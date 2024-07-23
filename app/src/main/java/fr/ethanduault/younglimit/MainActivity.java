@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.PictureDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.Manifest;
 import android.location.Location;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private double speed = 0.0;
 
     private int refreshDelay;
+    private boolean speedAlert = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 setSpeed(speed, speedLimit);
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 1000);
             }
         }, 500);
     }
@@ -149,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (speed > speedLimit) {
             speedBar.setProgress(100);
+            if (speedAlert) {
+                //play sound
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.system_notification_4_universfield);
+                player.start();
+            }
         } else {
             speedBar.setProgress((int) ((speed / speedLimit) * 100));
         }
@@ -264,6 +271,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FirstStart.class);
             startActivity(intent);
             return false;
+        }
+
+        if (preferences.getBoolean("speedAlert", false)) {
+            speedAlert = true;
         }
         refreshDelay = preferences.getInt("refresh", 5) * 1000;
         setTheme(preferences.getBoolean("darkmode", false));

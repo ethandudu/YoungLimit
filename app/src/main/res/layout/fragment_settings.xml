@@ -58,6 +58,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/speedalert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/speedwarning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/darkmode" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/sliderLabel"
         android:layout_width="wrap_content"
@@ -68,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/darkmode" />
+        app:layout_constraintTop_toBottomOf="@+id/speedalert" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider"
