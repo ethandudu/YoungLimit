@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int refreshDelay;
     private boolean speedAlert = false;
+    private int secondElapsed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 setSpeed(speed, speedLimit);
                 handler.postDelayed(this, 1000);
             }
-        }, 500);
+        }, 1000);
     }
     private void grantLocationPermission() {
         // ask for location permission and set callback
@@ -153,8 +154,12 @@ public class MainActivity extends AppCompatActivity {
             speedBar.setProgress(100);
             if (speedAlert) {
                 //play sound
-                final MediaPlayer player = MediaPlayer.create(this, R.raw.system_notification_4_universfield);
-                player.start();
+                if (secondElapsed == 0 || secondElapsed >= 5) {
+                    final MediaPlayer player = MediaPlayer.create(this, R.raw.system_notification_4_universfield);
+                    player.start();
+                    secondElapsed = 0;
+                }
+                secondElapsed += 1;
             }
         } else {
             speedBar.setProgress((int) ((speed / speedLimit) * 100));
