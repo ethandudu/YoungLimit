@@ -2,7 +2,7 @@
 <resources>
     <string name="speed_sign">Speed sign</string>
     <string name="app_logo">Icon of Young Limit</string>
-    <string name="startup_text">Welcome on Young Limit !\\nIt seems it\'s your first time using the app, let yourself be guided by the following steps.\\nYou are one step away from being able to use the application</string>
+    <string name="startup_text">Welcome on Young Limit !\nIt seems it\'s your first time using the app, let yourself be guided by the following steps.\nYou are one step away from being able to use the application</string>
     <string name="unknown_road">Unknown road</string>
     <string name="about">About</string>
     <string name="settings">Settings</string>
@@ -18,4 +18,5 @@
     <string name="permission_needed">Location authorization is required</string>
     <string name="permissions">Permissions</string>
     <string name="permission_already_granted">Permission already granted</string>
+    <string name="unknown_speed">0 km/h</string>
 </resources>
