@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private double latitude = 0.0;
     private double longitude = 0.0;
+    private int speedLimit = 0;
     private double speed = 0.0;
 
     private int refreshDelay;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (!loadSettings()) {
             super.finish();
@@ -95,10 +98,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void run() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();
-        setSpeedLimit(getSpeedLimit());
+        getSpeedLimit();
+        setSpeedLimit(speedLimit);
         startLocationLoop();
+        speedLoop();
+    }
+
+    private void speedLoop() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setSpeed(speed, speedLimit);
+                handler.postDelayed(this, 500);
+            }
+        }, 500);
     }
     private void grantLocationPermission() {
         // ask for location permission and set callback
@@ -114,11 +129,27 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                 getDeviceLocation();
-                setSpeedLimit(getSpeedLimit());
+                getSpeedLimit();
+                setSpeedLimit(speedLimit);
                 handler.postDelayed(this, refreshDelay);
             }
         }, refreshDelay);
+    }
+
+    private void setSpeed(double speed, int speedLimit) {
+        System.out.println("speed: " + speed + " speedLimit: " + speedLimit);
+        ProgressBar speedBar = findViewById(R.id.speed_progress);
+        if (speedLimit == 0) {
+            speedBar.setProgress(0);
+            return;
+        }
+        if (speed > speedLimit) {
+            speedBar.setProgress(100);
+        } else {
+            speedBar.setProgress((int) ((speed / speedLimit) * 100));
+        }
     }
 
     private void setSpeedLimit(int speedLimit) {
@@ -163,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                     if (location != null) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        speed = location.getSpeed();
+                        speed = location.getSpeed() * 3.6f;
                     }
                 }
                 else {
@@ -175,20 +206,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int getSpeedLimit() {
+    private void getSpeedLimit() {
         Future<String> request = HttpRequest.execute("https://overpass-api.de/api/interpreter", latitude, longitude);
         String response;
 
         try {
             TextView roadType = findViewById(R.id.road_type);
             response = request.get();
+            JSONObject json = new JSONObject(response);
 
-            if (new JSONObject(response).getJSONArray("elements").length() == 0) {
+            if ((json.getJSONArray("elements").length() == 0)) {
                 roadType.setText(R.string.unknown_road);
-                return 0;
+                speedLimit = 0;
+                return;
             }
             JSONObject tags = new JSONObject(response).getJSONArray("elements").getJSONObject(0).getJSONObject("tags");
 
+            if (!tags.has("maxspeed")) {
+                System.out.println("No maxspeed");
+                speedLimit = 0;
+                return;
+            }
             if (tags.has("name") && tags.has("ref")) {
                 roadType.setText(MessageFormat.format("{0} - {1}", tags.getString("name"), tags.getString("ref")));
             } else if (tags.has("name")) {
@@ -198,19 +236,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (tags.getString("highway").equals("motorway") && Integer.parseInt(tags.getString("maxspeed")) == 130) {
-                return 110;
+                speedLimit = 110;
+                return;
             } else if(tags.getString("highway").equals("trunk") && Integer.parseInt(tags.getString("lanes")) >= 2 && tags.getString("oneway").equals("yes") && Integer.parseInt(tags.getString("maxspeed")) == 110) {
-                return 100;
+                speedLimit = 100;
+                return;
             } else if (tags.getString("highway").equals("residential") && !tags.has("maxspeed")) {
-                return 50;
+                speedLimit = 50;
+                return;
             } else {
-                return Integer.parseInt(tags.getString("maxspeed"));
+                speedLimit = Integer.parseInt(tags.getString("maxspeed"));
+                return;
             }
 
         } catch (Exception e) {
             Toast.makeText(this, "Erreur: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        return 0;
+        speedLimit = 0;
     }
 
     private boolean loadSettings() {
@@ -238,5 +280,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, Settings.class));
         super.finish();
     }
-
 }
