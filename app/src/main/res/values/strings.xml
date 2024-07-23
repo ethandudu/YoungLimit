@@ -18,4 +18,5 @@
     <string name="permission_needed">L\'autorisation de localisation est obligatoire</string>
     <string name="permissions">Permissions</string>
     <string name="permission_already_granted">Permission déjà accordée</string>
+    <string name="unknown_speed">0 km/h</string>
 </resources>

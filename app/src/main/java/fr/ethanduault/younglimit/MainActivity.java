@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
     private void setSpeed(double speed, int speedLimit) {
         System.out.println("speed: " + speed + " speedLimit: " + speedLimit);
         ProgressBar speedBar = findViewById(R.id.speed_progress);
+        TextView speedText = findViewById(R.id.speed);
+        speedText.setText(MessageFormat.format("{0} km/h", speed));
         if (speedLimit == 0) {
             speedBar.setProgress(0);
             return;
